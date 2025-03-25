@@ -13,7 +13,7 @@ public final class Configs {
         public static final SparkMaxConfig backRightDrivingConfig = new SparkMaxConfig();
         public static final SparkMaxConfig backLeftDrivingConfig = new SparkMaxConfig();
 
-        static{
+        static{      
 
         }
     }
