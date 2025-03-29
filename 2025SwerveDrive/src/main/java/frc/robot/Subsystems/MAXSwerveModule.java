@@ -35,9 +35,6 @@ public class MAXSwerveModule {
     private double m_chassisAngularOffset = 0;
     private SwerveModuleState m_desiredState = new SwerveModuleState(0.0, new Rotation2d());
 
-    private boolean AbsoluteEncoderReversed;
-
-  
     public MAXSwerveModule(int p_driveID, int p_turnID, MotorLocation p_motorLocation, double p_chassisAngularOffset, boolean p_driveEncoderInverted, SparkMaxConfig drivingConfig, SparkMaxConfig turningConfig) 
     {
         m_driveMotor = new SparkMax(p_driveID, MotorType.kBrushless);
