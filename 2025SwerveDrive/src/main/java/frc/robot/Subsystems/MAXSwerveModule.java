@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkClosedLoopController;
@@ -90,13 +91,31 @@ public class MAXSwerveModule {
 
     }
 
-    public void setDesiredState(SwerveModuleState p_desiredState){
-        SwerveModuleState correctDesiredState = new SwerveModuleState();
-        //TO BE CONTINUED (LEARN MORE ABOUT THIS)
-
+    //Actually gives a use for the setDesiredState method 
+    //and allows us to acces m_desiredState outside of this subsystem
+    public SwerveModuleState getDesiredState(){
+        return m_desiredState;
     }
 
-      public void updateSmartDashboard() {
+    public void setDesiredState(SwerveModuleState p_desiredState){
+        //Apply angular offset of the robot to the desired st
+        SwerveModuleState correctedDesiredState = new SwerveModuleState();
+        correctedDesiredState.speedMetersPerSecond = p_desiredState.speedMetersPerSecond;
+        correctedDesiredState.angle = p_desiredState.angle.plus(Rotation2d.fromRadians(m_chassisAngularOffset));
+
+        //Optimize the reference state so that it does not spin more than 90 degrees
+        correctedDesiredState.optimize(new Rotation2d(m_turnEncoder.getPosition()));
+
+        //Actually set the desired state to the new setpoint
+        m_drivingClosedLoopController.setReference(correctedDesiredState.speedMetersPerSecond, ControlType.kVelocity);
+        m_turningClosedLoopController.setReference(correctedDesiredState.angle.getRadians(), ControlType.kPosition);
+        
+        //In their code, they set m_desiredState to p_desiredState, but it is wrong
+        m_desiredState = correctedDesiredState;
+    }
+
+    
+    public void updateSmartDashboard() {
         // Position of Drive and Turn Motors
         SmartDashboard.putNumber(m_motorLocation + " driver encoder", getDrivePosition());
         SmartDashboard.putNumber(m_motorLocation + " driver velocity", getDriveVelocity());
