@@ -26,6 +26,7 @@ public class MAXSwerveModule {
     private final RelativeEncoder m_driveEncoder;
     private final AbsoluteEncoder m_turnEncoder;
 
+
     private final SparkClosedLoopController m_drivingClosedLoopController;
     private final SparkClosedLoopController m_turningClosedLoopController;
 
@@ -35,9 +36,6 @@ public class MAXSwerveModule {
     private double m_chassisAngularOffset = 0;
     private SwerveModuleState m_desiredState = new SwerveModuleState(0.0, new Rotation2d());
 
-    private boolean AbsoluteEncoderReversed;
-
-  
     public MAXSwerveModule(int p_driveID, int p_turnID, MotorLocation p_motorLocation, double p_chassisAngularOffset, boolean p_driveEncoderInverted, SparkMaxConfig drivingConfig, SparkMaxConfig turningConfig) 
     {
         m_driveMotor = new SparkMax(p_driveID, MotorType.kBrushless);
@@ -100,30 +98,37 @@ public class MAXSwerveModule {
     }
 
     public void setDesiredState(SwerveModuleState p_desiredState){
-        SwerveModuleState correctDesiredState = new SwerveModuleState();
-        //TO BE CONTINUED (LEARN MORE ABOUT THIS)
+        //Apply angular offset of the robot to the desired st
+        SwerveModuleState correctedDesiredState = new SwerveModuleState();
+        correctedDesiredState.speedMetersPerSecond = p_desiredState.speedMetersPerSecond;
+        correctedDesiredState.angle = p_desiredState.angle.plus(Rotation2d.fromRadians(m_chassisAngularOffset));
 
+        //Optimize the reference state so that it does not spin more than 90 degrees
+        correctedDesiredState.optimize(new Rotation2d(m_turnEncoder.getPosition()));
+
+        //Actually set the desired state to the new setpoint
+        m_drivingClosedLoopController.setReference(correctedDesiredState.speedMetersPerSecond, ControlType.kVelocity);
+        m_turningClosedLoopController.setReference(correctedDesiredState.angle.getRadians(), ControlType.kPosition);
+        
+        //In their code, they set m_desiredState to p_desiredState, but it is wrong
+        m_desiredState = correctedDesiredState;
     }
 
-      public void updateSmartDashboard() {
+    
+    public void updateSmartDashboard() {
         // Position of Drive and Turn Motors
         SmartDashboard.putNumber(m_motorLocation + " driver encoder", getDrivePosition());
         SmartDashboard.putNumber(m_motorLocation + " driver velocity", getDriveVelocity());
         SmartDashboard.putNumber(m_motorLocation + " turn encoder", m_turnEncoder.getPosition());
     }
     
-    public void resetEncoder() {
+    public void resetEncoder(){
         m_driveEncoder.setPosition(0);
     }
 
-    public void stopMotors() {
+    public void stopMotors(){
         m_driveMotor.stopMotor();
         m_turnMotor.stopMotor();
-    }
-
-    public void testDrive(double position) {
-        
-        
     }
     
 }

@@ -1,4 +1,4 @@
-package frc.robot.Commands.SwerveDriveTrain;
+package frc.robot.commands.SwerveDriveTrain;
 
 public class SwerveJoystickCommand {
     
