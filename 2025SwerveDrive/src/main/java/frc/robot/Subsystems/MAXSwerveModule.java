@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkClosedLoopController;
@@ -25,7 +26,6 @@ public class MAXSwerveModule {
     private final RelativeEncoder m_driveEncoder;
     private final AbsoluteEncoder m_turnEncoder;
 
-
     private final SparkClosedLoopController m_drivingClosedLoopController;
     private final SparkClosedLoopController m_turningClosedLoopController;
 
@@ -34,9 +34,6 @@ public class MAXSwerveModule {
     
     private double m_chassisAngularOffset = 0;
     private SwerveModuleState m_desiredState = new SwerveModuleState(0.0, new Rotation2d());
-
-    private boolean AbsoluteEncoderReversed;
-
   
     public MAXSwerveModule(int p_driveID, int p_turnID, MotorLocation p_motorLocation, double p_chassisAngularOffset, boolean p_driveEncoderInverted, SparkMaxConfig drivingConfig, SparkMaxConfig turningConfig) 
     {
@@ -93,10 +90,14 @@ public class MAXSwerveModule {
 
     }
 
-    public void setDesiredState(SwerveModuleState p_desiredState){
-        SwerveModuleState correctDesiredState = new SwerveModuleState();
-        //TO BE CONTINUED (LEARN MORE ABOUT THIS)
+    public void setDesiredState(SwerveModuleState p_desiredState) {
+        SwerveModuleState correctedDesiredState = new SwerveModuleState();
+        correctedDesiredState.speedMetersPerSecond = p_desiredState.speedMetersPerSecond;
+        correctedDesiredState.angle = p_desiredState.angle.plus(Rotation2d.fromRadians(m_chassisAngularOffset));
 
+        correctedDesiredState.optimize(new Rotation2d(m_turnEncoder.getPosition()));
+        m_drivingClosedLoopController.setReference(correctedDesiredState.speedMetersPerSecond, ControlType.kVelocity);
+        m_turningClosedLoopController.setReference(correctedDesiredState.angle.getRadians(), ControlType.kPosition);
     }
 
       public void updateSmartDashboard() {
@@ -106,13 +107,18 @@ public class MAXSwerveModule {
         SmartDashboard.putNumber(m_motorLocation + " turn encoder", m_turnEncoder.getPosition());
     }
     
-    public void resetEncoder(){
+    public void resetEncoder() {
         m_driveEncoder.setPosition(0);
     }
 
-    public void stopMotors(){
+    public void stopMotors() {
         m_driveMotor.stopMotor();
         m_turnMotor.stopMotor();
+    }
+
+    public void testDrive(double position) {
+        
+        
     }
     
 }
