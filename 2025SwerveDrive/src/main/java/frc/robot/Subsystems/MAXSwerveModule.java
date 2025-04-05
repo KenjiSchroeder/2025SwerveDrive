@@ -49,7 +49,10 @@ public class MAXSwerveModule {
     
         m_motorLocation = p_motorLocation;
 
-       m_driveMotor.configure(drivingConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        //Apply configurations to the SPARKS 
+        //Reset before applying to bring the SPARKS to a good known state
+        //Persist the settings to the SPARKS so that they are not lost on power cycle
+        m_driveMotor.configure(drivingConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
         m_turnMotor.configure(Configs.MAXSwerveModule.turningConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
         m_chassisAngularOffset = p_chassisAngularOffset;
@@ -98,7 +101,7 @@ public class MAXSwerveModule {
     }
 
     public void setDesiredState(SwerveModuleState p_desiredState){
-        //Apply angular offset of the robot to the desired st
+        //Apply angular offset of the robot to the desired state
         SwerveModuleState correctedDesiredState = new SwerveModuleState();
         correctedDesiredState.speedMetersPerSecond = p_desiredState.speedMetersPerSecond;
         correctedDesiredState.angle = p_desiredState.angle.plus(Rotation2d.fromRadians(m_chassisAngularOffset));
