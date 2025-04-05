@@ -34,6 +34,9 @@ public class MAXSwerveModule {
     
     private double m_chassisAngularOffset = 0;
     private SwerveModuleState m_desiredState = new SwerveModuleState(0.0, new Rotation2d());
+
+    private boolean AbsoluteEncoderReversed;
+
   
     public MAXSwerveModule(int p_driveID, int p_turnID, MotorLocation p_motorLocation, double p_chassisAngularOffset, boolean p_driveEncoderInverted, SparkMaxConfig drivingConfig, SparkMaxConfig turningConfig) 
     {
@@ -90,14 +93,16 @@ public class MAXSwerveModule {
 
     }
 
-    public void setDesiredState(SwerveModuleState p_desiredState) {
-        SwerveModuleState correctedDesiredState = new SwerveModuleState();
-        correctedDesiredState.speedMetersPerSecond = p_desiredState.speedMetersPerSecond;
-        correctedDesiredState.angle = p_desiredState.angle.plus(Rotation2d.fromRadians(m_chassisAngularOffset));
+    //Actually gives a use for the setDesiredState method 
+    //and allows us to acces m_desiredState outside of this subsystem
+    public SwerveModuleState getDesiredState(){
+        return m_desiredState;
+    }
 
-        correctedDesiredState.optimize(new Rotation2d(m_turnEncoder.getPosition()));
-        m_drivingClosedLoopController.setReference(correctedDesiredState.speedMetersPerSecond, ControlType.kVelocity);
-        m_turningClosedLoopController.setReference(correctedDesiredState.angle.getRadians(), ControlType.kPosition);
+    public void setDesiredState(SwerveModuleState p_desiredState){
+        SwerveModuleState correctDesiredState = new SwerveModuleState();
+        //TO BE CONTINUED (LEARN MORE ABOUT THIS)
+
     }
 
       public void updateSmartDashboard() {

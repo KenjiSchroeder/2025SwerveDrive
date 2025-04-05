@@ -17,4 +17,9 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     return Commands.print("No autonomous command configured");
   }
+
+  public void onStart() {
+    //If we want to do something when the robot is turned on, we can put it here
+    //(Like camera setup or something)
+  }
 }

@@ -16,6 +16,7 @@ public final class Configs {
         public static final SparkMaxConfig backLeftDrivingConfig = new SparkMaxConfig();
 
         public static final SparkMaxConfig turningConfig = new SparkMaxConfig();
+        
         static {      
 
             double d_turningFactor = 2 * Math.PI;
