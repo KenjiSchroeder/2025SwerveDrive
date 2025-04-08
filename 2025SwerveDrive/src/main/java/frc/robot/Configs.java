@@ -5,15 +5,16 @@ import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
 public final class Configs {
-    //Swerve
-    public static final class MAXSwerveModule{
+
+
+    public static final class MAXSwerveModule {
         
         //Go on manhunt for where drivingConfig actually goes
 
-        public static final SparkMaxConfig frontRightDrivingConfig = new SparkMaxConfig();
-        public static final SparkMaxConfig frontLeftDrivingConfig = new SparkMaxConfig();
-        public static final SparkMaxConfig backRightDrivingConfig = new SparkMaxConfig();
-        public static final SparkMaxConfig backLeftDrivingConfig = new SparkMaxConfig();
+        public static final SparkMaxConfig FrontRightDrivingConfig = new SparkMaxConfig();
+        public static final SparkMaxConfig FrontLeftDrivingConfig = new SparkMaxConfig();
+        public static final SparkMaxConfig RearRightDrivingConfig = new SparkMaxConfig();
+        public static final SparkMaxConfig RearLeftDrivingConfig = new SparkMaxConfig();
 
         public static final SparkMaxConfig turningConfig = new SparkMaxConfig();
         
