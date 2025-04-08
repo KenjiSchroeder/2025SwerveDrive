@@ -29,13 +29,13 @@ this.turningSpdFunction = turningSpdFunction;
 this.fieldOrientedFunction = fieldOrientedFunction;
 this.statusName = statusName;
 this.xLimiter = new SlewRateLimiter(TeleConstants.k_MaxAccelerationMetersPerSecondSquared);
-this.yLimiter = new SlewrateLimiter(TeleConstants.k_MaxAccelerationMetersPerSecondSquared);
+this.yLimiter = new SlewRateLimiter(TeleConstants.k_MaxAccelerationMetersPerSecondSquared);
 this.turningLimiter = new SlewRateLimiter(TeleConstants.k_MaxAngularSpeedRadiansPerSecondSquared);
 addRequirements(swerveSubsystem);
 }
 
 @Override
-public void initilize() {
+public void initialize() {
     SmartDashboard.putString("Drive Mode", statusName);
 }
 
@@ -55,14 +55,28 @@ public void execute(){
 
     ChassisSpeeds chassisSpeeds;
     if (fieldOrientedFunction.get()) {
-    chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds()
-
-
+    chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed,turningSpeed, swerveSubsystem.getRotation2d());
+    } else {
+        chassisSpeeds = new ChassisSpeeds(xSpeed, ySpeed, turningSpeed);
     }
 
+    SwerveModuleState[] moduleStates = DriveConstants.k_DriveKinematics.toSwerveModuleStates(chassisSpeeds);
 
+    swerveSubsystem.setModuleStates(moduleStates);
+
+   if(DebuggingConstants.k_swerveDriveDebug) {
+        SmartDashboard.putString("joystick", "X : " + xSpdFunction.get() + "Y : " + ySpdFunction.get() + "Theta : " + turningSpdFunction.get());
+        SmartDashboard.putString("ChassisSpeeds", "X : " + chassisSpeeds.vxMetersPerSecond + "Y : " + chassisSpeeds.vyMetersPerSecond + "Theta : " + chassisSpeeds.omegaRadiansPerSecond);
+   }
 }
 
+    @Override
+    public void end(boolean interrupted) {
+        swerveSubsystem.stopModules();
+    }
 
-
+    @Override
+    public boolean isFinished() {
+        return false;
+    }
 }
