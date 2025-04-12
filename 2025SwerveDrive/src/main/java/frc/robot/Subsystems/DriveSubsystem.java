@@ -38,6 +38,7 @@ public class DriveSubsystem extends SubsystemBase {
         DriveConstants.FrontLeftDrivingCanId,
         DriveConstants.FrontLeftTurningCanId,
         DriveConstants.FrontLeftChassisAngularOffset,
+         MotorLocation.FRONT_LEFT
         DriveConstants.FrontLeftInverted,
         Configs.MAXSwerveModule.FrontLeftDrivingConfig,
         MotorLocation.FRONT_LEFT);
@@ -46,25 +47,23 @@ public class DriveSubsystem extends SubsystemBase {
         DriveConstants.FrontRightDrivingCanId,
         DriveConstants.FrontRightTurningCanId,
         DriveConstants.FrontRightChassisAngularOffset,
+         MotorLocation.FRONT_RIGHT
         DriveConstants.FrontRightInverted,
-        Configs.MAXSwerveModule.FrontRightDrivingConfig,
-        MotorLocation.FRONT_RIGHT);
+        Configs.MAXSwerveModule.FrontRightDrivingConfig);
         
     private final MAXSwerveModule m_backLeft = new MAXSwerveModule(
         DriveConstants.RearLeftDrivingCanId,
-        DriveConstants.RearLeftTurningCanId,
+        DriveConstants.RearLeftTurningCanId,  MotorLocation.REAR_LEFT
         DriveConstants.RearLeftChassisAngularOffset,
         DriveConstants.RearLeftInverted,
-        Configs.MAXSwerveModule.RearLeftDrivingConfig,
-        MotorLocation.REAR_LEFT);
+        Configs.MAXSwerveModule.RearLeftDrivingConfig);
         
     private final MAXSwerveModule m_backRight = new MAXSwerveModule(
         DriveConstants.RearRightDrivingCanId,
-        DriveConstants.RearRightTurningCanId,
+        DriveConstants.RearRightTurningCanId, MotorLocation.REAR_RIGHT
         DriveConstants.RearRightChassisAngularOffset,
         DriveConstants.RearRightInverted,
-        Configs.MAXSwerveModule.RearRightDrivingConfig,
-        MotorLocation.REAR_RIGHT);
+        Configs.MAXSwerveModule.RearRightDrivingConfig);
 
         private SwerveModuleState[] m_desiredModuleStates = {new SwerveModuleState(), new SwerveModuleState(), new SwerveModuleState(), new SwerveModuleState()};
 
