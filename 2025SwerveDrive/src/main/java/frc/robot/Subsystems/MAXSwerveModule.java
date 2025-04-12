@@ -66,7 +66,17 @@ public class MAXSwerveModule {
 
     }
 
-    public double getDriveVelocity(){
+   //Do we really need this?
+   // public MAXSwerveModule(int frontleftdrivingcanid, int frontleftturningcanid, double frontleftchassisangularoffset,
+          //  boolean frontleftinverted, SparkMaxConfig frontleftdrivingconfig, MotorLocation frontLeft) {
+        //TODO Auto-generated constructor stub
+
+    public MAXSwerveModule(int frontleftdrivingcanid, int frontleftturningcanid, double frontleftchassisangularoffset,
+			boolean frontleftinverted, SparkMaxConfig frontleftdrivingconfig, MotorLocation frontLeft) {
+		//TODO Auto-generated constructor stub
+	}
+
+	public double getDriveVelocity(){
         return m_driveEncoder.getVelocity();
     }
 

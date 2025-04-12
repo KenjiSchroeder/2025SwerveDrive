@@ -1,4 +1,4 @@
-package frc.robot.commands.SwerveDriveTrain;
+package frc.robot.Commands.SwerveDriveTrain;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Transform2d;
@@ -38,6 +38,6 @@ public class MoveDirection extends Command {
     @Override
     public void execute() {
         SmartDashboard.putString("Joystick", "X: " + xVal + "Y: " + yVal);
-        swerveSubsystem.drive(xVal, yVal, 0, true, false);
+        swerveSubsystem.drive(xVal, yVal, 0.0, true, "false");
     }
 }
