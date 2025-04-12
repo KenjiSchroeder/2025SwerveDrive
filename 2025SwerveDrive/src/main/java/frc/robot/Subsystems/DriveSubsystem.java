@@ -66,6 +66,8 @@ public class DriveSubsystem extends SubsystemBase {
         Configs.MAXSwerveModule.RearRightDrivingConfig,
         MotorLocation.REAR_RIGHT);
 
+        private SwerveModuleState[] m_desiredModuleStates = {new SwerveModuleState(), new SwerveModuleState(), new SwerveModuleState(), new SwerveModuleState()};
+
     public Pose2d getPose() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getPose'");
@@ -84,7 +86,7 @@ public class DriveSubsystem extends SubsystemBase {
                 : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
             SwerveDriveKinematics.desaturateWheelSpeeds(
                 swerveModuleStates, DriveConstants.k_MaxSpeedMetersPerSecond);
-            SwerveModuleState[] m_desiredModuleStates = swerveModuleStates;
+            m_desiredModuleStates = swerveModuleStates;
             m_frontLeft.setDesiredState(swerveModuleStates[0]);
             m_frontRight.setDesiredState(swerveModuleStates[1]);
             m_backLeft.setDesiredState(swerveModuleStates[2]);
@@ -101,7 +103,7 @@ public class DriveSubsystem extends SubsystemBase {
             m_frontRight.setDesiredState(desiredStates[1]);
             m_backLeft.setDesiredState(desiredStates[2]);
             m_backRight.setDesiredState(desiredStates[3]);
-            SwerveModuleState[] m_desiredModuleStates = desiredStates;
+            m_desiredModuleStates = desiredStates;
     }
 
     public Rotation2d getRotation2d() {

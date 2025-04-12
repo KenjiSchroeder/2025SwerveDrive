@@ -66,16 +66,15 @@ public class MAXSwerveModule {
 
     }
 
-   //Do we really need this?
-   // public MAXSwerveModule(int frontleftdrivingcanid, int frontleftturningcanid, double frontleftchassisangularoffset,
-          //  boolean frontleftinverted, SparkMaxConfig frontleftdrivingconfig, MotorLocation frontLeft) {
-        //TODO Auto-generated constructor stub
-
-    public MAXSwerveModule(int frontleftdrivingcanid, int frontleftturningcanid, double frontleftchassisangularoffset,
+    public MAXSwerveModule(int p_drivingCANId, int p_frontLeftTurningCanid, double p_frontleftchassisangularoffset,
 			boolean frontleftinverted, SparkMaxConfig frontleftdrivingconfig, MotorLocation frontLeft) {
-		//TODO Auto-generated constructor stub
-	}
 
+		//TODO Auto-generated constructor stub
+        m_driveMotor = new SparkMax(p_drivingCANId, MotorType.kBrushless);
+        m_turnMotor = new SparkMax(p_frontleft)
+        
+        m_driveEncoder = m_driveMotor.getEncoder
+	}
 	public double getDriveVelocity(){
         return m_driveEncoder.getVelocity();
     }
