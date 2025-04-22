@@ -36,7 +36,7 @@ public class MAXSwerveModule {
     private double m_chassisAngularOffset = 0;
     private SwerveModuleState m_desiredState = new SwerveModuleState(0.0, new Rotation2d());
 
-    public MAXSwerveModule(int p_driveID, int p_turnID, MotorLocation p_motorLocation, double p_chassisAngularOffset, boolean p_driveEncoderInverted, SparkMaxConfig drivingConfig, SparkMaxConfig turningConfig) 
+    public MAXSwerveModule(int p_driveID, int p_turnID, MotorLocation p_motorLocation, double p_chassisAngularOffset, boolean p_driveEncoderInverted, SparkMaxConfig drivingConfig) 
     {
         m_driveMotor = new SparkMax(p_driveID, MotorType.kBrushless);
         m_turnMotor = new SparkMax(p_turnID, MotorType.kBrushless);
@@ -145,4 +145,17 @@ public class MAXSwerveModule {
         m_turnMotor.stopMotor();
     }
     
-}
+    //Sets the speed of the motor, @param speed of motar in meters/second, (m/s)
+    public void testDriveMotors(double speed) {
+        m_driveMotor.set(speed);
+    }
+    
+    //Turns only the motor to a specific angle, @param position is where the turn wheel should be rotated ( in radians )
+    public void testTurnMotors(double position) {
+        m_turningClosedLoopController.setReference(position, ControlType.kPosition);
+    }
+
+    
+    }
+
+

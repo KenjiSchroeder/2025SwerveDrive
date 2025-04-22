@@ -31,13 +31,25 @@ public class MoveDirection extends Command {
         SmartDashboard.putString("DriveMode", "MoveDirection/" + statusName);
         finalPosition = swerveSubsystem.getPose().plus(new Transform2d(translation, swerveSubsystem.getRotation2d()));
         double distance = Math.sqrt(translation.getX() * translation.getX() + translation.getY() * translation.getY());
-        xVal = translation.getX() / distance;
-        yVal = translation.getY() / distance;
+        xVal = multiplier * translation.getX() / distance;
+        yVal = multiplier * translation.getY() / distance;
     }
 
     @Override
     public void execute() {
         SmartDashboard.putString("Joystick", "X: " + xVal + "Y: " + yVal);
         swerveSubsystem.drive(xVal, yVal, 0.0, true, "false");
+    }
+
+    @Override 
+    public void end(boolean interrupted) {
+        swerveSubsystem.stopModules();
+    }
+
+    @Override 
+    public boolean isFinished() {
+        Pose2d distancePose = swerveSubsystem.getPose().relativeTo(finalPosition);
+        double distance = Math.sqrt(distancePose.getX() * distancePose.getY() * distancePose.getY());
+        return distance < threshold;
     }
 }
