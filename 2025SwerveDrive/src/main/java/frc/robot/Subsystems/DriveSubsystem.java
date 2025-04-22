@@ -40,8 +40,7 @@ public class DriveSubsystem extends SubsystemBase {
         DriveConstants.FrontLeftChassisAngularOffset,
          MotorLocation.FRONT_LEFT
         DriveConstants.FrontLeftInverted,
-        Configs.MAXSwerveModule.FrontLeftDrivingConfig,
-        MotorLocation.FRONT_LEFT);
+        Configs.MAXSwerveModule.FrontLeftDrivingConfig,);
 
     private final MAXSwerveModule m_frontRight = new MAXSwerveModule(
         DriveConstants.FrontRightDrivingCanId,
