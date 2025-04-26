@@ -6,6 +6,7 @@ import java.util.function.DoubleSupplier;
 // import com.studica.frc.AHRS.NavXComType;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
+import com.ctre.phoenix6.hardware.Pigeon2;
 import edu.wpi.first.hal.FRCNetComm.tInstances;
 import edu.wpi.first.hal.FRCNetComm.tResourceType;
 import edu.wpi.first.hal.HAL;
@@ -67,6 +68,8 @@ public class DriveSubsystem extends SubsystemBase {
         DriveConstants.k_RearRightChassisAngularOffset,
         DriveConstants.k_RearRightInverted,
         Configs.MAXSwerveModule.RearRightDrivingConfig);
+
+         private final Pigeon2 m_gyro = OperatingConstants.k_usingGyro ? new Pigeon2(DriveConstants.k_pigeon2Id) : null;
         
         private SwerveModuleState[] m_desiredModuleStates = {new SwerveModuleState(), new SwerveModuleState(), new SwerveModuleState(), new SwerveModuleState()};
 
@@ -106,6 +109,12 @@ public class DriveSubsystem extends SubsystemBase {
             m_backLeft.setDesiredState(desiredStates[2]);
             m_backRight.setDesiredState(desiredStates[3]);
             m_desiredModuleStates = desiredStates;
+    }
+
+    public void zeroHeading() {
+        if(OperatingConstants.k_usingGyro) {
+            m_gyro.reset();
+        }
     }
 
     public Rotation2d getRotation2d() {
