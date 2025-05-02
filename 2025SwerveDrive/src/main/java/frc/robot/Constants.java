@@ -20,7 +20,7 @@ public final class Constants {
   }
 
   public static final class DriveConstants {
-
+      public static final int k_pigeon2Id = 0; //Change to actual pigeon ID when programming
       public static final double k_MaxSpeedMetersPerSecond = 0.00;
       public static final double k_MaxAngularSpeed = 2 * Math.PI; //rad per sec
       //Change placeholder values into the
