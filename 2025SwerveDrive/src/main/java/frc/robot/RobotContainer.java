@@ -33,9 +33,38 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public class RobotContainer {
-  private DriveSubsystem driveSubsystem;
-  pri
-tik eta
+  private DriveSubsystem m_driveSub;
+  
+  // Replace with CommandPS4Controller or CommandJoystick if needed
+  private final CommandXboxController m_driverController =
+      new CommandXboxController(OIConstants.k_DriverControllerPort);
+
+  /** The container for the robot. Contains subsystems, OI devices, and commands. */
+  public RobotContainer() {
+     initSubsystems();    
+    // Configure the trigger bindings
+    configureBindings();
+    configureSmartDashboard();
+    configurePathPlanner();
+  }
+
+  private void initSubsystems() {
+        if(OperatingConstants.k_usingSwerveDrive) {
+                m_driveSub = new DriveSubsystem();
+                m_driveSub.setDefaultCommand(new RunCommand(
+                        () -> m_driveSub.drive(
+                                OIConstants.k_driverYAxisInverted * MathUtil.applyDeadband(m_driverController.getRawAxis(OIConstants.k_driverAxisY), OIConstants.k_DriveDeadband), 
+                                OIConstants.k_driverXAxisInverted * MathUtil.applyDeadband(m_driverController.getRawAxis(OIConstants.k_driverAxisX), OIConstants.k_DriveDeadband), 
+                                OIConstants.k_driverRotAxisInverted * MathUtil.applyDeadband(m_driverController.getRawAxis(OIConstants.k_driverAxisRot), OIConstants.k_DriveDeadband), 
+                                true,
+                                "Default / Field Oriented"
+                        ), 
+                        m_driveSub)
+                );
+        } else {
+                m_driveSub = null;
+        }
+  }
 
   private void configureBindings() {}
 
