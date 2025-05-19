@@ -1,4 +1,4 @@
-// Copyright (c) FIRST and other WPILib contributors.
+2// Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
@@ -66,7 +66,27 @@ public class RobotContainer {
         }
   }
 
-  private void configureBindings() {}
+// May need to add pathplanner stuff here
+
+  private void configureBindings() {
+         int preset = 0;
+        switch (preset) {
+                case 0: 
+                        controllerPresetMain();//Default/actual config
+                        break;
+                case 1:
+                        controllerPresetOnce(); //Debugging
+                        break;
+                case 2:
+                        controllerPresetTwo(); //Indiv Debugging       
+                        break;
+                defalt:
+                        controllerPresetMain(); //Default/actual config
+                        break;
+        }
+  }
+
+  private void configureSmartDashboard() {}//They don't have anything here, but we might want to do swerve
 
   public Command getAutonomousCommand() {
     return Commands.print("No autonomous command configured");
@@ -75,5 +95,18 @@ public class RobotContainer {
   public void onStart() {
     //If we want to do something when the robot is turned on, we can put it here
     //(Like camera setup or something)
+  }
+
+  //Presets
+  /**
+   * The defalut controller preset. This is the one that will be used in the actual robot.
+   * Does the following:
+   * Left Joystick : Swerve (XY Translation)
+   * Right Joystick : Swerve (Rotation/Heading)
+   */
+
+  public void controllerPresetMain() {
+    
+    
   }
 }
