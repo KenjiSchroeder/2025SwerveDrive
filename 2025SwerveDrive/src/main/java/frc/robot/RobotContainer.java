@@ -75,10 +75,7 @@ public class RobotContainer {
                         controllerPresetMain();//Default/actual config
                         break;
                 case 1:
-                        controllerPresetOnce(); //Debugging
-                        break;
-                case 2:
-                        controllerPresetTwo(); //Indiv Debugging       
+                        controllerPresetOne(); //Debugging
                         break;
                 defalt:
                         controllerPresetMain(); //Default/actual config
@@ -107,6 +104,114 @@ public class RobotContainer {
 
   public void controllerPresetMain() {
     
-    
+  // Left Trigger (Don't know if we are using robot orientated or not)
+        /*if(OperatingConstants.k_usingSwerveDrive){
+                m_driverController.leftTrigger().whileTrue(
+                        new RunCommand(
+                                () -> m_driveSub.drive(
+                                        OIConstants.k_driverYAxisInverted * MathUtil.applyDeadband(m_driverController.getRawAxis(OIConstants.k_driverAxisY), OIConstants.k_DriveDeadband), 
+                                        OIConstants.k_driverXAxisInverted * MathUtil.applyDeadband(m_driverController.getRawAxis(OIConstants.k_driverAxisX), OIConstants.k_DriveDeadband), 
+                                        OIConstants.k_driverRotAxisInverted * MathUtil.applyDeadband(m_driverController.getRawAxis(OIConstants.k_driverAxisRot), OIConstants.k_DriveDeadband), 
+                                        false,
+                                        "Robot Orientated"
+                                ), 
+                                m_driveSub
+                        )
+                );
+        }*/
   }
+  /**
+   * Controller preset for debugging swerve drive.
+   * Does the following: 
+   *    Button B : Reset Swerve's Odometer 
+   *    Button A : Stops All Swerve Modules
+   *    Button X : Drive Forwards
+   *    Button Y : Make Wheels X
+   *    Right Trigger : Hold + Joystick w/o being field orientated
+   *    Right Trigger : Hold + X = Drive Left 
+   */
+  public void controllerPresetOne(){
+        // Reset Odometer
+        if(OperatingConstants.k_usingSwerveDrive) {
+                
+                m_driverController.b().onTrue(
+                        new SequentialCommandGroup(
+                                new InstantCommand(
+                                        ()-> m_driveSub.zeroHeading(),
+                                        m_driveSub
+                                ),
+                                new InstantCommand(
+                                        ()-> m_driveSub.resetOdometry(new Pose2d()),
+                                        m_driveSub
+                                )
+                        )
+                );
+                
+                // Stop Button
+                m_driverController.a().onTrue(
+                        new InstantCommand(
+                                () -> m_driveSub.stopModules(), 
+                                m_driveSub
+                        )
+                );
+
+                // Drives Forward
+                m_driverController.x().and(m_driverController.rightTrigger().negate()).whileTrue(
+                        new RunCommand(
+                                () -> m_driveSub.drive(
+                                        1.0, 
+                                        0.0, 
+                                        0.0, 
+                                        false,
+                                        "Drive Forwards"
+                                ), 
+                                m_driveSub
+                        )
+                );
+
+                // Drives Forward
+                m_driverController.x().and(m_driverController.rightTrigger()).whileTrue(
+                        new RunCommand(
+                                () -> m_driveSub.drive(
+                                        0.0, 
+                                        1.0, 
+                                        0.0, 
+                                        false,
+                                        "Drive Left"
+                                ), 
+                                m_driveSub
+                        )
+                );
+
+                // Make Wheels X
+                m_driverController.y().whileTrue(
+                        new RunCommand(
+                                () -> m_driveSub.setX(),
+                                m_driveSub
+                        )
+                );
+
+                m_driverController.leftTrigger().whileTrue(
+                        new RunCommand(
+                                () -> m_driveSub.resetEncoders(),
+                                m_driveSub
+                        )      
+                );
+
+                // drive with Robot Orientation
+                m_driverController.rightTrigger().whileTrue(
+                        new RunCommand(
+                                () -> m_driveSub.drive(
+                                        OIConstants.k_driverYAxisInverted * MathUtil.applyDeadband(m_driverController.getRawAxis(OIConstants.k_driverAxisY), OIConstants.k_DriveDeadband), 
+                                        OIConstants.k_driverXAxisInverted * MathUtil.applyDeadband(m_driverController.getRawAxis(OIConstants.k_driverAxisX), OIConstants.k_DriveDeadband), 
+                                        OIConstants.k_driverRotAxisInverted * MathUtil.applyDeadband(m_driverController.getRawAxis(OIConstants.k_driverAxisRot), OIConstants.k_DriveDeadband), 
+                                        false,
+                                        "Robot Orientated"
+                                ), 
+                                m_driveSub
+                        )
+                );
+  }
+
+}
 }
