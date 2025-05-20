@@ -1,4 +1,4 @@
-2// Copyright (c) FIRST and other WPILib contributors.
+// Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
@@ -45,7 +45,6 @@ public class RobotContainer {
     // Configure the trigger bindings
     configureBindings();
     configureSmartDashboard();
-    configurePathPlanner();
   }
 
   private void initSubsystems() {
@@ -77,7 +76,7 @@ public class RobotContainer {
                 case 1:
                         controllerPresetOne(); //Debugging
                         break;
-                defalt:
+                default:
                         controllerPresetMain(); //Default/actual config
                         break;
         }
