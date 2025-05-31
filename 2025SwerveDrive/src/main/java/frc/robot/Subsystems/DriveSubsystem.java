@@ -73,11 +73,29 @@ public class DriveSubsystem extends SubsystemBase {
         
         private SwerveModuleState[] m_desiredModuleStates = {new SwerveModuleState(), new SwerveModuleState(), new SwerveModuleState(), new SwerveModuleState()};
 
+// Odometry class for tracking robot pose
+SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(
+    DriveConstants.k_DriveKinematics,
+    getRotation2d(),
+    getSwerveModulePosition());
+
+
     public Pose2d getPose() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getPose'");
     }
     
+    /**
+   * Resets the odometry to the specified pose.
+   *
+   * @param pose The pose to which to set the odometry.
+   */
+  public void resetOdometry(Pose2d pose) {
+    m_odometry.resetPosition(
+        getRotation2d(),
+        getSwerveModulePosition(),
+        pose);
+  }
 
     public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative, String statusName){
         double multiplier = 1; //Adjust value for later
@@ -100,6 +118,26 @@ public class DriveSubsystem extends SubsystemBase {
             SmartDashboard.putString("Drive Mode", statusName);
     }
 
+    public void setX() {
+        m_desiredModuleStates[0] = new SwerveModuleState(0, Rotation2d.fromDegrees(45));
+        m_desiredModuleStates[1] = new SwerveModuleState(0, Rotation2d.fromDegrees(-45));
+        m_desiredModuleStates[2] = new SwerveModuleState(0, Rotation2d.fromDegrees(-45));
+        m_desiredModuleStates[3] = new SwerveModuleState(0, Rotation2d.fromDegrees(45));
+    
+        m_frontLeft.setDesiredState(m_desiredModuleStates[0]);
+        m_frontRight.setDesiredState(m_desiredModuleStates[1]);
+        m_backLeft.setDesiredState(m_desiredModuleStates[2]);
+        m_backRight.setDesiredState(m_desiredModuleStates[3]);
+      }
+
+    public SwerveModulePosition[] getSwerveModulePosition() {
+        return new SwerveModulePosition[] {
+            m_frontLeft.getPosition(),
+            m_frontRight.getPosition(),
+            m_backLeft.getPosition(),
+            m_backRight.getPosition()
+        };
+    }
     
     public void setModuleStates(SwerveModuleState[] desiredStates) {
         SwerveDriveKinematics.desaturateWheelSpeeds(
@@ -110,6 +148,14 @@ public class DriveSubsystem extends SubsystemBase {
             m_backRight.setDesiredState(desiredStates[3]);
             m_desiredModuleStates = desiredStates;
     }
+
+    public void resetEncoders() {
+        m_frontLeft.resetEncoder();
+        m_backLeft.resetEncoder();
+        m_frontRight.resetEncoder();
+        m_backRight.resetEncoder();
+      }
+    
 
     public void zeroHeading() {
         if(OperatingConstants.k_usingGyro) {

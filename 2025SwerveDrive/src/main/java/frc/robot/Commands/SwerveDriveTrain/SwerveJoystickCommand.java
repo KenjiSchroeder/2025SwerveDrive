@@ -41,13 +41,13 @@ public void initialize() {
 
 @Override
 public void execute(){
-    double xSpeed = OIConstants.DRIVER_X_AXIS_INVERTED * xSpdFunction.get();
-    double ySpeed = OIConstants.DRIVER_Y_AXIS_INVERTED * ySpdFunction.get();
-    double turningSpeed = OIConstants.DRIVER_ROT_AXIS_INVERTED * turningSpdFunction.get();
+    double xSpeed = OIConstants.k_driverXAxisInverted * xSpdFunction.get();
+    double ySpeed = OIConstants.k_driverYAxisInverted * ySpdFunction.get();
+    double turningSpeed = OIConstants.k_driverYAxisInverted * turningSpdFunction.get();
 
-    xSpeed = Math.abs(xSpeed) > OIConstants.DriveDeadband ? xSpeed : 0.0; //adjust value later
-    ySpeed = Math.abs(ySpeed) > OIConstants.DriveDeadband ? ySpeed : 0.0; //adjust value later
-    turningSpeed = Math.abs(turningSpeed) > OIConstants.DriveDeadband ? turningSpeed : 0.0;
+    xSpeed = Math.abs(xSpeed) > OIConstants.k_DriveDeadband ? xSpeed : 0.0; //adjust value later
+    ySpeed = Math.abs(ySpeed) > OIConstants.k_DriveDeadband ? ySpeed : 0.0; //adjust value later
+    turningSpeed = Math.abs(turningSpeed) > OIConstants.k_DriveDeadband ? turningSpeed : 0.0;
 
     xSpeed = xLimiter.calculate(xSpeed) * TeleConstants.MaxSpeedMetersPerSecond;
     ySpeed = yLimiter.calculate(ySpeed) * TeleConstants.MaxSpeedMetersPerSecond;

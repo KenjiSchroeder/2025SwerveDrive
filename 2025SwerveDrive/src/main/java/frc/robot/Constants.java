@@ -134,16 +134,17 @@ public final class Constants {
     }
 
     public static final class OIConstants {
-        public static final int DRIVER_CONTROL_PORT = 0;
-        public static final double DriveDeadband = 0.20;
+        public static final int k_DriverControllerPort = 0;
+        public static final double k_DriveDeadband = 0.20;
+        
+        public static final int k_driverXAxisInverted = 1;
+        public static final int k_driverYAxisInverted = 1;
+        public static final int k_driverRotAxisInverted = 1;
 
-        public static final int DRIVER_X_AXIS = 1;
-        public static final int DRIVER_Y_AXIS = 0;
-        public static final int DRIVER_ROT_AXIS = 4;
-
-        public static final int DRIVER_X_AXIS_INVERTED = 1;
-        public static final int DRIVER_Y_AXIS_INVERTED = -1;
-        public static final int DRIVER_ROT_AXIS_INVERTED = 1;
+        public static final int k_driverAxisY = 1; // Check
+        public static final int k_driverAxisX = 0; // Check
+        public static final int k_driverAxisRot = 4; // Check
+        public static final int k_driverAxisOrientedButton = 1; // Check
         
         public static final int k_DriverControllerPort = 1;
 
