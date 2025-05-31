@@ -145,6 +145,17 @@ public final class Constants {
         public static final int DRIVER_Y_AXIS_INVERTED = -1;
         public static final int DRIVER_ROT_AXIS_INVERTED = 1;
         
+        public static final int k_DriverControllerPort = 1;
+
+        public static final int k_driverXAxisInverted = 1;
+        public static final int k_driverYAxisInverted = 1;
+        public static final int k_driverRotAxisInverted = 1;
+
+        public static final int k_driverAxisX = 1;
+        public static final int k_driverAxisY = 1;
+        public static final int k_driverAxisRot = 1;
+        
+        public static final int k_DriveDeadband = 1;
     }
 
     public static final class TeleConstants {
